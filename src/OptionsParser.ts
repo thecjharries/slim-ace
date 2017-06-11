@@ -100,18 +100,14 @@ export abstract class OptionsParser {
         }
     }
 
-    // private updateAndVerifyRepository({ repository = this.options.repository } = {}): void {
-    //     const changed = this.options.repository !== repository;
-    //     this.options.repository = repository;
-    //     this.pullRepository(changed);
-    //     shelljs.cd(`${this.options.workingDirectory}/source`);
-    //     // TODO: pull this out into a protected method
-    //     console.log(this.options);
-    //     const ace =
-    //         `src${this.options.minified ? "-min" : ""}${this.options.noConflict ? "-noconflict" : ""}/ace.js`;
-    //     console.log(ace);
-    //     if  (!shelljs.test("-e", ace)) {
-    //         this.exit(1, `Repository does not contain ${ace}`);
-    //     }
-    // }
+    private updateAndVerifyRepository({ repository = this.options.repository } = {}): void {
+        const changed = this.options.repository !== repository;
+        this.options.repository = repository;
+        this.pullRepository(changed);
+        const ace = this.getAceRootDirectory(true);
+        /* istanbul ignore else */
+        if  (!shelljs.test("-e", ace)) {
+            this.exit(1, `Repository does not contain ${ace}`);
+        }
+    }
 }

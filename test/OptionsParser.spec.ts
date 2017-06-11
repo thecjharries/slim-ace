@@ -232,53 +232,46 @@ describe("OptionsParser", () => {
             });
         });
 
-        // describe("verifyRepository()", (): void => {
-        //     let pullStub: sinon.SinonStub;
+        describe("verifyRepository()", (): void => {
+            let pullStub: sinon.SinonStub;
+            let aceStub: sinon.SinonStub;
 
-        //     beforeEach((): void => {
-        //         parser = new (OptionsParser as any)(emptyArgs);
-        //         pullStub = sinon.stub(parser, "pullRepository");
-        //         cdStub = sinon.stub(shelljs, "cd");
-        //         testStub = sinon.stub(shelljs, "test");
-        //         exitStub = sinon.stub(parser, "exit");
-        //     });
+            beforeEach((): void => {
+                parser = new (OptionsParser as any)(emptyArgs);
+                pullStub = sinon.stub(parser, "pullRepository");
+                aceStub = sinon.stub(parser, "getAceRootDirectory");
+                testStub = sinon.stub(shelljs, "test");
+                exitStub = sinon.stub(parser, "exit");
+            });
 
-        //     it("apply default options and pull without a wipe", (): any => {
-        //         (parser as any).updateAndVerifyRepository();
-        //         (parser as any).options.workingDirectory
-        //             .should.equal((OptionsParser as any).DEFAULT_OPTIONS.workingDirectory);
-        //         pullStub.calledWith(false).should.be.true;
-        //     });
+            it("apply default options and pull without a wipe", (): any => {
+                (parser as any).updateAndVerifyRepository();
+                (parser as any).options.workingDirectory
+                    .should.equal((OptionsParser as any).DEFAULT_OPTIONS.workingDirectory);
+                pullStub.calledWith(false).should.be.true;
+            });
 
-        //     it("apply changed options and pull with a wipe", (): any => {
-        //         const repository = "qqq";
-        //         (parser as any).updateAndVerifyRepository({ repository });
-        //         (parser as any).options.repository.should.equal(repository);
-        //         pullStub.calledWith(true).should.be.true;
-        //     });
-        //     // TODO: move this to an ace string method
-        //     it("should properly create the ace string", (): any => {
-        //         // This is the default location using the default config
-        //         const ace = `src-noconflict/ace.js`;
-        //         console.log(ace);
-        //         (parser as any).updateAndVerifyRepository();
-        //         testStub.calledWith(ace).should.be.true;
-        //     });
+            it("apply changed options and pull with a wipe", (): any => {
+                const repository = "qqq";
+                (parser as any).updateAndVerifyRepository({ repository });
+                (parser as any).options.repository.should.equal(repository);
+                pullStub.calledWith(true).should.be.true;
+            });
 
-        //     it("should die without Ace", (): any => {
-        //         testStub.returns(false);
-        //         (parser as any).updateAndVerifyRepository();
-        //         exitStub.calledWith(1).should.be.true;
-        //     });
+            it("should die without Ace", (): any => {
+                testStub.returns(false);
+                (parser as any).updateAndVerifyRepository();
+                exitStub.calledWith(1).should.be.true;
+            });
 
-        //     afterEach((): void => {
-        //         cdStub.restore();
-        //         testStub.restore();
-        //         execStub.restore();
-        //         exitStub.restore();
-        //         parser = null;
-        //     });
-        // });
+            afterEach((): void => {
+                pullStub.restore();
+                testStub.restore();
+                execStub.restore();
+                exitStub.restore();
+                parser = null;
+            });
+        });
 
         describe("exit", (): void => {
             beforeEach((): void => {
