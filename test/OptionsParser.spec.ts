@@ -85,6 +85,27 @@ describe("OptionsParser", () => {
             });
         });
 
+        describe("applyRequiredBooleans()", (): void => {
+            it("should use the instance's values as default", (): any => {
+                const defaults = (parser as any).options;
+                (parser as any).applyRequiredBooleans();
+                defaults.minified.should.equal(defaults.minified);
+                defaults.noConflict.should.equal(defaults.noConflict);
+                defaults.tidy.should.equal(defaults.tidy);
+            });
+
+            it("should apply the correct options", (): any => {
+                const minified = Math.floor(Math.random() * 2) === 1;
+                const noConflict = Math.floor(Math.random() * 2) === 1;
+                const tidy = Math.floor(Math.random() * 2) === 1;
+                (parser as any).applyRequiredBooleans({ minified, noConflict, tidy });
+                const options = (parser as any).options;
+                options.minified.should.equal(minified);
+                options.noConflict.should.equal(noConflict);
+                options.tidy.should.equal(tidy);
+            });
+        });
+
         describe("exit", (): void => {
             beforeEach((): void => {
                 echoStub = sinon.stub(shelljs, "echo");

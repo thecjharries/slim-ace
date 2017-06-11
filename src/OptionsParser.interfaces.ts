@@ -14,19 +14,14 @@ export interface IArgsRepository extends IArgsIndex {
     repository: string;
 }
 
-export interface IArgsTidy extends IArgsIndex {
-    t?: boolean;
-    tidy: boolean;
-}
-
-export interface IArgsNoConflict extends IArgsIndex {
-    n?: boolean;
-    "no-conflict": boolean;
-}
-
-export interface IArgsMinified extends IArgsIndex {
+export interface IArgsRequiredBooleans extends IArgsIndex {
     m?: boolean;
     minified: boolean;
+    n?: boolean;
+    "no-conflict"?: boolean;
+    noConflict: boolean;
+    t?: boolean;
+    tidy: boolean;
 }
 
 export interface IArgsHelp extends IArgsIndex {
@@ -35,7 +30,7 @@ export interface IArgsHelp extends IArgsIndex {
 }
 
 /* tslint:disable-next-line:max-line-length */
-export interface IArgs extends ParsedArgs, IArgsHelp, IArgsOutDirectory, IArgsRepository, IArgsTidy, IArgsNoConflict, IArgsMinified {
+export interface IArgs extends ParsedArgs, IArgsHelp, IArgsOutDirectory, IArgsRepository, IArgsRequiredBooleans {
     // This is seriously just a container
 }
 
@@ -44,9 +39,10 @@ export interface IBuilderConfig {
 }
 
 export interface IBuilderOptions {
+    configFile?: IBuilderConfig;
     minified: boolean;
     noConflict: boolean;
-    repository: string;
     out: string;
-    configFile?: IBuilderConfig;
+    repository: string;
+    tidy: boolean;
 }

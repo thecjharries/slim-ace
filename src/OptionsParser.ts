@@ -6,13 +6,15 @@ import * as OptionsParserInterfaces from "./OptionsParser.interfaces";
 
 export abstract class OptionsParser {
     protected static HELP_MESSAGE_PATH: string = path.join(__dirname, "help");
-
-    protected options: OptionsParserInterfaces.IBuilderOptions = {
+    protected static DEFAULT_OPTIONS = {
         minified: false,
         noConflict: true,
         out: path.join(process.cwd(), "vendor", "ace"),
         repository: "https://github.com/ajaxorg/ace-builds",
+        tidy: false,
     };
+
+    protected options: OptionsParserInterfaces.IBuilderOptions = OptionsParser.DEFAULT_OPTIONS;
 
     public constructor(args: OptionsParserInterfaces.IArgs) {
         this.checkForGit();
@@ -37,5 +39,15 @@ export abstract class OptionsParser {
             shelljs.cat(OptionsParser.HELP_MESSAGE_PATH);
             this.exit(0);
         }
+    }
+
+    private applyRequiredBooleans({
+        minified = this.options.minified,
+        noConflict = this.options.noConflict,
+        tidy = this.options.tidy,
+    } = {}) {
+        this.options.minified = minified;
+        this.options.noConflict = noConflict;
+        this.options.tidy = tidy;
     }
 }
