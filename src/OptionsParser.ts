@@ -19,14 +19,14 @@ export abstract class OptionsParser {
     }
 
     private help(args: OptionsParserInterfaces.IArgsHelp) {
-        if (args.help) {
+        if (args && args.help) {
             shelljs.cat(OptionsParser.HELP_MESSAGE_PATH);
-            shelljs.exit(0);
+            this.exit(0);
         }
     }
 
     private exit(code: number = 0, message?: string) {
-        if (message) {
+        if (message && message.length > 0) {
             shelljs.echo(message);
         }
         shelljs.exit(code);
