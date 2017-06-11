@@ -1,0 +1,14 @@
+.idea
+*.sublime-*
+node_modules
+npm-debug.log
+.gitconfig
+src/**/*.js
+src/**/*.map
+test/**/*.js
+test/**/*.map
+.nyc_output
+coverage
+docs
+
+scratch.ts
