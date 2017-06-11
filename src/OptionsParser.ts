@@ -18,6 +18,13 @@ export abstract class OptionsParser {
         this.checkForGit();
     }
 
+    protected exit(code: number = 0, message?: string) {
+        if (message && message.length > 0) {
+            shelljs.echo(message);
+        }
+        shelljs.exit(code);
+    }
+
     private checkForGit(): void {
         // Literally pulled from the docs. Also it"s perfect.
         if (!shelljs.which("git")) {
@@ -30,12 +37,5 @@ export abstract class OptionsParser {
             shelljs.cat(OptionsParser.HELP_MESSAGE_PATH);
             this.exit(0);
         }
-    }
-
-    private exit(code: number = 0, message?: string) {
-        if (message && message.length > 0) {
-            shelljs.echo(message);
-        }
-        shelljs.exit(code);
     }
 }
