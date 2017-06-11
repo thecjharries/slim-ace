@@ -10,7 +10,8 @@
         "no-arg": true,
         "no-bitwise": true,
         "no-conditional-assignment": true,
-        "no-consecutive-blank-lines": false
+        "no-consecutive-blank-lines": false,
+        "object-literal-key-quotes": [true, "as-needed"]
     },
     "jsRules": {
         "max-line-length": {
