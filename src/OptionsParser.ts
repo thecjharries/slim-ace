@@ -1,6 +1,7 @@
 import { ParsedArgs } from "minimist";
 import * as path from "path";
 import * as shelljs from "shelljs";
+(shelljs.config as any).fatal = true;
 
 import * as OptionsParserInterfaces from "./OptionsParser.interfaces";
 
@@ -12,6 +13,7 @@ export abstract class OptionsParser {
         out: path.join(process.cwd(), "vendor", "ace"),
         repository: "https://github.com/ajaxorg/ace-builds",
         tidy: false,
+        workingDirectory: path.join(process.cwd(), ".slim-ace"),
     };
 
     protected options: OptionsParserInterfaces.IBuilderOptions = OptionsParser.DEFAULT_OPTIONS;
@@ -20,7 +22,7 @@ export abstract class OptionsParser {
         this.checkForGit();
     }
 
-    protected exit(code: number = 0, message?: string) {
+    protected exit(code: number = 0, message?: string): void {
         if (message && message.length > 0) {
             shelljs.echo(message);
         }
@@ -34,7 +36,7 @@ export abstract class OptionsParser {
         }
     }
 
-    private help(args: OptionsParserInterfaces.IArgsHelp) {
+    private help(args: OptionsParserInterfaces.IArgsHelp): void {
         if (args && args.help) {
             shelljs.cat(OptionsParser.HELP_MESSAGE_PATH);
             this.exit(0);
@@ -45,9 +47,43 @@ export abstract class OptionsParser {
         minified = this.options.minified,
         noConflict = this.options.noConflict,
         tidy = this.options.tidy,
-    } = {}) {
+    } = {}): void {
         this.options.minified = minified;
         this.options.noConflict = noConflict;
         this.options.tidy = tidy;
     }
+
+    private updateAndCreateWorkingDirectory({
+        workingDirectory = this.options.workingDirectory,
+    } = {}) {
+        this.options.workingDirectory = workingDirectory;
+        try {
+            shelljs.mkdir("-p", `${this.options.workingDirectory}/source`);
+            shelljs.cd(`${this.options.workingDirectory}/source`);
+        } catch (error) {
+            this.exit(
+                1,
+                `Unable to create working directory; Please check permissions \
+                for ${path.dirname(this.options.workingDirectory)}`,
+            );
+        }
+    }
+
+    // private pullRepository(): void {
+    //     try {
+    //         if (shelljs.test("-d", ".git")) {
+    //             shelljs.exec("git pull");
+    //         } else {
+    //             shelljs.exec(`git clone ${this.options.repository} .`);
+    //         }
+    //     } catch (error) {
+    //         this.exit(1, "Unable to pull repo; please verify settings");
+    //     }
+    // }
+    // private verifyRepository({ repository = this.options.repository } = {}): boolean {
+    //     if (repository === OptionsParser.DEFAULT_OPTIONS.repository) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 }

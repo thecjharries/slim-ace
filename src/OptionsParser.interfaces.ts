@@ -45,4 +45,5 @@ export interface IBuilderOptions {
     out: string;
     repository: string;
     tidy: boolean;
+    workingDirectory: string;
 }

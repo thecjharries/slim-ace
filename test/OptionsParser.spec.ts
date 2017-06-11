@@ -87,11 +87,12 @@ describe("OptionsParser", () => {
 
         describe("applyRequiredBooleans()", (): void => {
             it("should use the instance's values as default", (): any => {
-                const defaults = (parser as any).options;
+                const defaults = (OptionsParser as any).DEFAULT_OPTIONS;
                 (parser as any).applyRequiredBooleans();
-                defaults.minified.should.equal(defaults.minified);
-                defaults.noConflict.should.equal(defaults.noConflict);
-                defaults.tidy.should.equal(defaults.tidy);
+                const options = (parser as any).options;
+                options.minified.should.equal(defaults.minified);
+                options.noConflict.should.equal(defaults.noConflict);
+                options.tidy.should.equal(defaults.tidy);
             });
 
             it("should apply the correct options", (): any => {
@@ -105,6 +106,44 @@ describe("OptionsParser", () => {
                 options.tidy.should.equal(tidy);
             });
         });
+
+        describe("updateAndCreateWorkingDirectory()", (): void => {
+            let mkdirStub: sinon.SinonStub;
+            let cdStub: sinon.SinonStub;
+
+            beforeEach((): void => {
+                mkdirStub = sinon.stub(shelljs, "mkdir");
+                cdStub = sinon.stub(shelljs, "cd");
+                exitStub = sinon.stub(parser, "exit");
+            });
+
+            it("should apply default arguments", (): any => {
+                (parser as any).updateAndCreateWorkingDirectory();
+                (parser as any).options.workingDirectory
+                    .should.equal((OptionsParser as any).DEFAULT_OPTIONS.workingDirectory);
+            });
+
+            it("should exit if permissions are bad", (): any => {
+                mkdirStub.throws();
+                (parser as any).updateAndCreateWorkingDirectory();
+                exitStub.calledWith(1).should.be.true;
+            });
+
+            afterEach((): void => {
+                mkdirStub.restore();
+                cdStub.restore();
+            });
+        });
+
+        // describe("pullRepository()", (): void => {
+        //     let mkdirStub: sinon.SinonStub;
+        //     beforeEach(mkdirStub)
+        //     it("should make directories as needed", (): any => {
+        //         // (shelljs.config as any).verbose = true;
+        //         (parser as any).pullRepository();
+        //     });
+
+        // });
 
         describe("exit", (): void => {
             beforeEach((): void => {
