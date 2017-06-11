@@ -69,17 +69,19 @@ export abstract class OptionsParser {
         }
     }
 
-    // private pullRepository(): void {
-    //     try {
-    //         if (shelljs.test("-d", ".git")) {
-    //             shelljs.exec("git pull");
-    //         } else {
-    //             shelljs.exec(`git clone ${this.options.repository} .`);
-    //         }
-    //     } catch (error) {
-    //         this.exit(1, "Unable to pull repo; please verify settings");
-    //     }
-    // }
+    private pullRepository(): void {
+        try {
+            shelljs.cd(`${this.options.workingDirectory}/source`);
+            if (shelljs.test("-d", ".git")) {
+                shelljs.exec("git pull");
+            } else {
+                shelljs.exec(`git clone ${this.options.repository} .`);
+            }
+        } catch (error) {
+            this.exit(1, "Unable to pull repo; please verify settings");
+        }
+    }
+
     // private verifyRepository({ repository = this.options.repository } = {}): boolean {
     //     if (repository === OptionsParser.DEFAULT_OPTIONS.repository) {
     //         return true;

@@ -17,8 +17,10 @@ import { OptionsParser } from "../src/OptionsParser";
 
 describe("OptionsParser", () => {
     let parser: OptionsParser | null;
+    let cdStub: sinon.SinonStub;
     let checkStub: sinon.SinonStub;
     let echoStub: sinon.SinonStub;
+    let execStub: sinon.SinonStub;
     let exitStub: sinon.SinonStub;
     const emptyArgs: ParsedArgs = { _: [] };
     const invalidExitCode: number = 1;
@@ -109,7 +111,6 @@ describe("OptionsParser", () => {
 
         describe("updateAndCreateWorkingDirectory()", (): void => {
             let mkdirStub: sinon.SinonStub;
-            let cdStub: sinon.SinonStub;
 
             beforeEach((): void => {
                 mkdirStub = sinon.stub(shelljs, "mkdir");
@@ -132,6 +133,43 @@ describe("OptionsParser", () => {
             afterEach((): void => {
                 mkdirStub.restore();
                 cdStub.restore();
+                exitStub.restore();
+            });
+        });
+
+        describe("pullRepository()", (): void => {
+            let testStub: sinon.SinonStub;
+            beforeEach((): void => {
+                cdStub = sinon.stub(shelljs, "cd");
+                testStub = sinon.stub(shelljs, "test");
+                execStub = sinon.stub(shelljs, "exec");
+                exitStub = sinon.stub(parser, "exit");
+            });
+
+            it("should pull existing repos", (): any => {
+                testStub.returns(true);
+                (parser as any).pullRepository();
+                execStub.calledWith("git pull").should.be.true;
+            });
+
+            it("should clone if nothing is found", (): any => {
+                const repo = (parser as any).options.repository;
+                testStub.returns(false);
+                (parser as any).pullRepository();
+                execStub.calledWith(`git clone ${repo} .`).should.be.true;
+            });
+
+            it("should exit if git fails", (): any => {
+                execStub.throws();
+                (parser as any).pullRepository();
+                exitStub.calledWith(1).should.be.true;
+            });
+
+            afterEach((): void => {
+                cdStub.restore();
+                testStub.restore();
+                execStub.restore();
+                exitStub.restore();
             });
         });
 
