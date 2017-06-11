@@ -105,6 +105,11 @@ describe("OptionsParser", () => {
                 }
             });
 
+            it("should exit normally without input", (): any => {
+                (parser as any).exit();
+                exitStub.calledWith(validExitCode).should.be.true;
+            });
+
             afterEach((): void => {
                 echoStub.restore();
                 exitStub.restore();
