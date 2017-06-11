@@ -59,12 +59,12 @@ describe("OptionsParser", () => {
     describe("helpers", (): void => {
         beforeEach((): void => {
             checkStub = sinon.stub((OptionsParser as any).prototype, "checkForGit");
-            parser = new (OptionsParser as any)(emptyArgs);
         });
 
         describe("help()", () => {
             let catStub: sinon.SinonStub;
             beforeEach((): void => {
+                parser = new (OptionsParser as any)(emptyArgs);
                 catStub = sinon.stub(shelljs, "cat");
                 exitStub = sinon.stub(parser, "exit");
             });
@@ -85,10 +85,15 @@ describe("OptionsParser", () => {
             afterEach((): void => {
                 catStub.restore();
                 exitStub.restore();
+                parser = null;
             });
         });
 
         describe("applyRequiredBooleans()", (): void => {
+            beforeEach((): void => {
+                parser = new (OptionsParser as any)(emptyArgs);
+            });
+
             it("should use the instance's values as default", (): any => {
                 const defaults = (OptionsParser as any).DEFAULT_OPTIONS;
                 (parser as any).applyRequiredBooleans();
@@ -108,12 +113,17 @@ describe("OptionsParser", () => {
                 options.noConflict.should.equal(noConflict);
                 options.tidy.should.equal(tidy);
             });
+
+            afterEach((): void => {
+                parser = null;
+            });
         });
 
         describe("updateAndCreateWorkingDirectory()", (): void => {
             let mkdirStub: sinon.SinonStub;
 
             beforeEach((): void => {
+                parser = new (OptionsParser as any)(emptyArgs);
                 mkdirStub = sinon.stub(shelljs, "mkdir");
                 cdStub = sinon.stub(shelljs, "cd");
                 exitStub = sinon.stub(parser, "exit");
@@ -135,6 +145,7 @@ describe("OptionsParser", () => {
                 mkdirStub.restore();
                 cdStub.restore();
                 exitStub.restore();
+                parser = null;
             });
         });
 
@@ -142,6 +153,7 @@ describe("OptionsParser", () => {
             let rmStub: sinon.SinonStub;
 
             beforeEach((): void => {
+                parser = new (OptionsParser as any)(emptyArgs);
                 cdStub = sinon.stub(shelljs, "cd");
                 rmStub = sinon.stub(shelljs, "rm");
                 testStub = sinon.stub(shelljs, "test");
@@ -182,46 +194,61 @@ describe("OptionsParser", () => {
                 testStub.restore();
                 execStub.restore();
                 exitStub.restore();
+                parser = null;
             });
         });
 
-        describe("verifyRepository()", (): void => {
-            // beforeEach((): void => {
-            //     cdStub = sinon.stub(shelljs, "cd");
-            //     testStub = sinon.stub(shelljs, "test");
-            //     execStub = sinon.stub(shelljs, "exec");
-            //     exitStub = sinon.stub(parser, "exit");
-            // });
+        // describe("verifyRepository()", (): void => {
+        //     let pullStub: sinon.SinonStub;
 
-            // it("apply default options", (): any => {
-            //     (parser as any).verifyRepository();
-            //     (parser as any).options.workingDirectory
-            //         .should.equal((OptionsParser as any).DEFAULT_OPTIONS.workingDirectory);
-            // });
+        //     beforeEach((): void => {
+        //         parser = new (OptionsParser as any)(emptyArgs);
+        //         pullStub = sinon.stub(parser, "pullRepository");
+        //         cdStub = sinon.stub(shelljs, "cd");
+        //         testStub = sinon.stub(shelljs, "test");
+        //         exitStub = sinon.stub(parser, "exit");
+        //     });
 
-            // it("should clone if nothing is found", (): any => {
-            //     const repo = (parser as any).options.repository;
-            //     testStub.returns(false);
-            //     (parser as any).pullRepository();
-            //     execStub.calledWith(`git clone ${repo} .`).should.be.true;
-            // });
+        //     it("apply default options and pull without a wipe", (): any => {
+        //         (parser as any).updateAndVerifyRepository();
+        //         (parser as any).options.workingDirectory
+        //             .should.equal((OptionsParser as any).DEFAULT_OPTIONS.workingDirectory);
+        //         pullStub.calledWith(false).should.be.true;
+        //     });
 
-            // it("should exit if git fails", (): any => {
-            //     execStub.throws();
-            //     (parser as any).pullRepository();
-            //     exitStub.calledWith(1).should.be.true;
-            // });
+        //     it("apply changed options and pull with a wipe", (): any => {
+        //         const repository = "qqq";
+        //         (parser as any).updateAndVerifyRepository({ repository });
+        //         (parser as any).options.repository.should.equal(repository);
+        //         pullStub.calledWith(true).should.be.true;
+        //     });
+        //     // TODO: move this to an ace string method
+        //     it("should properly create the ace string", (): any => {
+        //         // This is the default location using the default config
+        //         const ace = `${(OptionsParser as any).DEFAULT_OPTIONS.workingDirectory}/source/src-noconflict/ace.js`;
+        //         console.log(ace);
+        //         (parser as any).updateAndVerifyRepository();
+        //         testStub.calledWith(ace).should.be.true;
+        //     });
 
-            // afterEach((): void => {
-            //     cdStub.restore();
-            //     testStub.restore();
-            //     execStub.restore();
-            //     exitStub.restore();
-            // });
-        });
+        //     it("should die without Ace", (): any => {
+        //         testStub.returns(false);
+        //         (parser as any).updateAndVerifyRepository();
+        //         exitStub.calledWith(1).should.be.true;
+        //     });
+
+        //     afterEach((): void => {
+        //         cdStub.restore();
+        //         testStub.restore();
+        //         execStub.restore();
+        //         exitStub.restore();
+        //         parser = null;
+        //     });
+        // });
 
         describe("exit", (): void => {
             beforeEach((): void => {
+                parser = new (OptionsParser as any)(emptyArgs);
                 echoStub = sinon.stub(shelljs, "echo");
                 exitStub = sinon.stub(shelljs, "exit");
             });
@@ -248,6 +275,7 @@ describe("OptionsParser", () => {
             afterEach((): void => {
                 echoStub.restore();
                 exitStub.restore();
+                parser = null;
             });
         });
 
