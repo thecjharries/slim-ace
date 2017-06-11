@@ -5,7 +5,14 @@ import * as shelljs from "shelljs";
 import * as OptionsParserInterfaces from "./OptionsParser.interfaces";
 
 export abstract class OptionsParser {
-    private static HELP_MESSAGE_PATH: string = path.join(__dirname, "help");
+    protected static HELP_MESSAGE_PATH: string = path.join(__dirname, "help");
+
+    protected options: OptionsParserInterfaces.IBuilderOptions = {
+        minified: false,
+        noConflict: true,
+        out: path.join(process.cwd(), "vendor", "ace"),
+        repository: "https://github.com/ajaxorg/ace-builds",
+    };
 
     public constructor(args: OptionsParserInterfaces.IArgs) {
         this.checkForGit();
