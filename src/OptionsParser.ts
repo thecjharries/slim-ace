@@ -29,6 +29,17 @@ export abstract class OptionsParser {
         shelljs.exit(code);
     }
 
+    protected getAceRootDirectory(source: boolean = false): string {
+        if (source) {
+            return path.join(
+                this.options.workingDirectory,
+                "source",
+                `src${this.options.minified ? "-min" : ""}${this.options.noConflict ? "-noconflict" : ""}`,
+            );
+        }
+        return this.options.out;
+    }
+
     private checkForGit(): void {
         // Literally pulled from the docs. Also it"s perfect.
         if (!shelljs.which("git")) {
@@ -90,11 +101,15 @@ export abstract class OptionsParser {
     }
 
     // private updateAndVerifyRepository({ repository = this.options.repository } = {}): void {
+    //     const changed = this.options.repository !== repository;
     //     this.options.repository = repository;
-    //     this.pullRepository();
+    //     this.pullRepository(changed);
     //     shelljs.cd(`${this.options.workingDirectory}/source`);
+    //     // TODO: pull this out into a protected method
+    //     console.log(this.options);
     //     const ace =
     //         `src${this.options.minified ? "-min" : ""}${this.options.noConflict ? "-noconflict" : ""}/ace.js`;
+    //     console.log(ace);
     //     if  (!shelljs.test("-e", ace)) {
     //         this.exit(1, `Repository does not contain ${ace}`);
     //     }

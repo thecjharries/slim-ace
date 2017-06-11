@@ -11,6 +11,7 @@ const should = chai.should();
 chai.use(require("chai-as-promised"));
 
 import { ParsedArgs } from "minimist";
+import * as path from "path";
 import * as shelljs from "shelljs";
 
 import { OptionsParser } from "../src/OptionsParser";
@@ -72,7 +73,7 @@ describe("OptionsParser", () => {
             it("should only print when specified", (): any => {
                 (parser as any).help();
                 catStub.called.should.be.false;
-                (parser as any).help({help: true});
+                (parser as any).help({ help: true });
                 catStub.called.should.be.true;
             });
 
@@ -198,6 +199,39 @@ describe("OptionsParser", () => {
             });
         });
 
+        describe("getAceRootDirectory()", (): void => {
+            beforeEach((): void => {
+                parser = new (OptionsParser as any)();
+            });
+
+            it("should properly create the source ace permutation", (): any => {
+                for (const minified of [true, false]) {
+                    for (const noConflict of [true, false]) {
+                        const tail = "src"
+                            + (minified ? "-min" : "")
+                            + (noConflict ? "-noconflict" : "");
+                        (parser as any).options.minified = minified;
+                        (parser as any).options.noConflict = noConflict;
+                        (parser as any).getAceRootDirectory(true)
+                            .should.equal(path.join(
+                                (parser as any).options.workingDirectory,
+                                "source",
+                                tail,
+                            ));
+                    }
+                }
+            });
+
+            it("should properly pass through the out string", (): any => {
+                (parser as any).getAceRootDirectory()
+                    .should.equal((OptionsParser as any).DEFAULT_OPTIONS.out);
+            });
+
+            afterEach((): void => {
+                parser = null;
+            });
+        });
+
         // describe("verifyRepository()", (): void => {
         //     let pullStub: sinon.SinonStub;
 
@@ -225,7 +259,7 @@ describe("OptionsParser", () => {
         //     // TODO: move this to an ace string method
         //     it("should properly create the ace string", (): any => {
         //         // This is the default location using the default config
-        //         const ace = `${(OptionsParser as any).DEFAULT_OPTIONS.workingDirectory}/source/src-noconflict/ace.js`;
+        //         const ace = `src-noconflict/ace.js`;
         //         console.log(ace);
         //         (parser as any).updateAndVerifyRepository();
         //         testStub.calledWith(ace).should.be.true;
