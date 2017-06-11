@@ -22,6 +22,7 @@ describe("OptionsParser", () => {
     let echoStub: sinon.SinonStub;
     let execStub: sinon.SinonStub;
     let exitStub: sinon.SinonStub;
+    let testStub: sinon.SinonStub;
     const emptyArgs: ParsedArgs = { _: [] };
     const invalidExitCode: number = 1;
     const message = "message";
@@ -138,12 +139,22 @@ describe("OptionsParser", () => {
         });
 
         describe("pullRepository()", (): void => {
-            let testStub: sinon.SinonStub;
+            let rmStub: sinon.SinonStub;
+
             beforeEach((): void => {
                 cdStub = sinon.stub(shelljs, "cd");
+                rmStub = sinon.stub(shelljs, "rm");
                 testStub = sinon.stub(shelljs, "test");
                 execStub = sinon.stub(shelljs, "exec");
                 exitStub = sinon.stub(parser, "exit");
+            });
+
+            it("should wipe the existing repo or die when asked", (): any => {
+                (parser as any).pullRepository(true);
+                rmStub.called.should.be.true;
+                rmStub.throws();
+                (parser as any).pullRepository(true);
+                exitStub.calledWith(1).should.be.true;
             });
 
             it("should pull existing repos", (): any => {
@@ -167,21 +178,47 @@ describe("OptionsParser", () => {
 
             afterEach((): void => {
                 cdStub.restore();
+                rmStub.restore();
                 testStub.restore();
                 execStub.restore();
                 exitStub.restore();
             });
         });
 
-        // describe("pullRepository()", (): void => {
-        //     let mkdirStub: sinon.SinonStub;
-        //     beforeEach(mkdirStub)
-        //     it("should make directories as needed", (): any => {
-        //         // (shelljs.config as any).verbose = true;
-        //         (parser as any).pullRepository();
-        //     });
+        describe("verifyRepository()", (): void => {
+            // beforeEach((): void => {
+            //     cdStub = sinon.stub(shelljs, "cd");
+            //     testStub = sinon.stub(shelljs, "test");
+            //     execStub = sinon.stub(shelljs, "exec");
+            //     exitStub = sinon.stub(parser, "exit");
+            // });
 
-        // });
+            // it("apply default options", (): any => {
+            //     (parser as any).verifyRepository();
+            //     (parser as any).options.workingDirectory
+            //         .should.equal((OptionsParser as any).DEFAULT_OPTIONS.workingDirectory);
+            // });
+
+            // it("should clone if nothing is found", (): any => {
+            //     const repo = (parser as any).options.repository;
+            //     testStub.returns(false);
+            //     (parser as any).pullRepository();
+            //     execStub.calledWith(`git clone ${repo} .`).should.be.true;
+            // });
+
+            // it("should exit if git fails", (): any => {
+            //     execStub.throws();
+            //     (parser as any).pullRepository();
+            //     exitStub.calledWith(1).should.be.true;
+            // });
+
+            // afterEach((): void => {
+            //     cdStub.restore();
+            //     testStub.restore();
+            //     execStub.restore();
+            //     exitStub.restore();
+            // });
+        });
 
         describe("exit", (): void => {
             beforeEach((): void => {

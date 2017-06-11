@@ -69,9 +69,16 @@ export abstract class OptionsParser {
         }
     }
 
-    private pullRepository(): void {
+    private pullRepository(wipe: boolean = false): void {
+        shelljs.cd(`${this.options.workingDirectory}/source`);
+        if (wipe) {
+            try {
+                shelljs.rm("-rf", "./*");
+            } catch (error) {
+                this.exit(1, "Unable to wipe existing repository");
+            }
+        }
         try {
-            shelljs.cd(`${this.options.workingDirectory}/source`);
             if (shelljs.test("-d", ".git")) {
                 shelljs.exec("git pull");
             } else {
@@ -82,10 +89,14 @@ export abstract class OptionsParser {
         }
     }
 
-    // private verifyRepository({ repository = this.options.repository } = {}): boolean {
-    //     if (repository === OptionsParser.DEFAULT_OPTIONS.repository) {
-    //         return true;
+    // private updateAndVerifyRepository({ repository = this.options.repository } = {}): void {
+    //     this.options.repository = repository;
+    //     this.pullRepository();
+    //     shelljs.cd(`${this.options.workingDirectory}/source`);
+    //     const ace =
+    //         `src${this.options.minified ? "-min" : ""}${this.options.noConflict ? "-noconflict" : ""}/ace.js`;
+    //     if  (!shelljs.test("-e", ace)) {
+    //         this.exit(1, `Repository does not contain ${ace}`);
     //     }
-    //     return false;
     // }
 }
