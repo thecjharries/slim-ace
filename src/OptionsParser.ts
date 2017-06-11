@@ -1,7 +1,8 @@
 import { ParsedArgs } from "minimist";
 import * as shelljs from "shelljs";
 
-export class OptionsParser {
+
+export abstract class OptionsParser {
     public constructor(args: ParsedArgs) {
         this.checkForGit();
     }
@@ -9,8 +10,14 @@ export class OptionsParser {
     private checkForGit(): void {
         // Literally pulled from the docs. Also it"s perfect.
         if (!shelljs.which("git")) {
-            shelljs.echo("Sorry, this script requires git");
-            shelljs.exit(1);
+            this.exit(1, "Sorry, this script requires git");
         }
+    }
+
+    private exit(code: number = 0, message?: string) {
+        if (message) {
+            shelljs.echo(message);
+        }
+        shelljs.exit(code);
     }
 }

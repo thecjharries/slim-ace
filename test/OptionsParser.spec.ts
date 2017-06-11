@@ -18,19 +18,21 @@ import { OptionsParser } from "../src/OptionsParser";
 describe("OptionsParser", () => {
     let parser: OptionsParser | null;
     let checkStub: sinon.SinonStub;
+    let echoStub: sinon.SinonStub;
+    let exitStub: sinon.SinonStub;
     const emptyArgs: ParsedArgs = { _: [] };
+    const invalidExitCode: number = 1;
+    const message = "message";
+    const validExitCode: number = 0;
 
-    describe("creation", (): void => {
+    describe("constructor calls", (): void => {
         describe("checkForGit()", (): void => {
             let whichStub: sinon.SinonStub;
-            let echoStub: sinon.SinonStub;
-            let exitStub: sinon.SinonStub;
 
             beforeEach((): void => {
                 whichStub = sinon.stub(shelljs, "which").returns("some/path/to/git");
-                echoStub = sinon.stub(shelljs, "echo");
-                exitStub = sinon.stub(shelljs, "exit");
-                parser = new OptionsParser(emptyArgs);
+                exitStub = sinon.stub((OptionsParser as any).prototype, "exit");
+                parser = new (OptionsParser as any)(emptyArgs);
             });
 
             it("should do nothing when git is found", () => {
@@ -46,16 +48,41 @@ describe("OptionsParser", () => {
 
             afterEach((): void => {
                 whichStub.restore();
-                echoStub.restore();
                 exitStub.restore();
             });
         });
     });
 
-    describe("post-creation", (): void => {
+    describe("helpers", (): void => {
         beforeEach((): void => {
-            checkStub = sinon.stub(parser, "checkForGit");
-            parser = new OptionsParser(emptyArgs);
+            checkStub = sinon.stub((OptionsParser as any).prototype, "checkForGit");
+            parser = new (OptionsParser as any)(emptyArgs);
+        });
+
+        describe("exit", (): void => {
+            beforeEach((): void => {
+                echoStub = sinon.stub(shelljs, "echo");
+                exitStub = sinon.stub(shelljs, "exit");
+            });
+
+            it("should print a message only when provided", (): any => {
+                (parser as any).exit(validExitCode);
+                echoStub.called.should.be.false;
+                (parser as any).exit(validExitCode, message);
+                echoStub.calledWith(message).should.be.true;
+            });
+
+            it("should pass exit codes through", (): any => {
+                for (const code of [validExitCode, invalidExitCode]) {
+                    (parser as any).exit(code);
+                    exitStub.calledWith(code).should.be.true;
+                }
+            });
+
+            afterEach((): void => {
+                echoStub.restore();
+                exitStub.restore();
+            });
         });
 
         afterEach((): void => {
