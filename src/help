@@ -1,0 +1,44 @@
+Usage:
+    slim-ace [-h | --help] [--fetch] [--init-config[=<comma-separated options>]]
+             [-m | --minified] [-n | --no-conflict] [-t | --tidy]
+             [[-o | --out]=<path>] [[-r | --repository]=<URL>]
+             [[-c | --config]=<path>]
+
+Options (Defaults in parens)
+    -h  --help          Print this help and exit
+    -f  --fetch         Fetches the repo. If no other options are set, it uses
+                        default values
+        --init-config   Generates an empty config file. If any options are set,
+                        it fetches the repo and populates the config all
+                        possible values.
+                        Valid options: ext,mode,theme,worker
+                        WARNING: THIS MIGHT NOT WORK WITH THE MINIFIED OR NO
+                                 CONFLICT VERSIONS (yet)
+    -m  --minified      Whether or not to use a minified version, (false)
+    -n  --no-conflict   Whether or not to use a no-conflict version (false)
+    -t  --tidy          Whether or not to clean up after running.
+                        WARNING: TIDYING WILL REMOVE THIS PACKAGE
+    -o  --out           Specify the output directory (./)
+    -r  --repository    Specify a different source, e.g. a fork
+                        (https://github.com/ajaxorg/ace-builds)
+                        WARNING: CHANGING THIS MIGHT MESS UP YOUR WORKING
+                                 DIRECTORY. Use with caution.
+    -c  --config        Specify the config location. (./.slimacerc)
+
+Examples
+    Call:
+        slim-ace
+    Result:
+        ./
+            vendor/
+                ace/
+                    ace.js (from the src folder)
+            index.html (only if not present)
+    Call:
+        slim-ace --no-conflict --out some/different/path
+    Result:
+        ./
+            some/
+                different/
+                    path/
+                        ace.js (from the src-no-conflict folder)

@@ -59,6 +59,32 @@ describe("OptionsParser", () => {
             parser = new (OptionsParser as any)(emptyArgs);
         });
 
+        describe("help()", () => {
+            let catStub: sinon.SinonStub;
+            beforeEach((): void => {
+                catStub = sinon.stub(shelljs, "cat");
+                exitStub = sinon.stub(parser, "exit");
+            });
+
+            it("should only print when specified", (): any => {
+                (parser as any).help();
+                catStub.called.should.be.false;
+                (parser as any).help({help: true});
+                catStub.called.should.be.true;
+            });
+
+            it("should cat the proper message and exit", (): any => {
+                (parser as any).help({ help: true });
+                catStub.calledWith((OptionsParser as any).HELP_MESSAGE_PATH).should.be.true;
+                exitStub.called.should.be.true;
+            });
+
+            afterEach((): void => {
+                catStub.restore();
+                exitStub.restore();
+            });
+        });
+
         describe("exit", (): void => {
             beforeEach((): void => {
                 echoStub = sinon.stub(shelljs, "echo");
