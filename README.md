@@ -46,5 +46,7 @@ I care about TextMate [languages](http://manual.macromates.com/en/language_gramm
     - Full Ace lib support (ace-builds doesn't include the necessary files to, say, [complete the highlighter tutorial](https://ace.c9.io/#nav=higlighter))
     - `tmLanguage` parsing (initially from the plist, then from the YAML, JSON, and all that) (probably going to break this out somehow)
     - `tmTheme` parsing (initially from the plist, then from the YAML, JSON, and all that) (probably going to break this out somehow)
+    - Gulp integration
 * Eventual features
-    - None for the moment, but I'm not immune to feature creep
+    - Grunt integrations
+    - Nothing else for the moment, but I'm not immune to feature creep
