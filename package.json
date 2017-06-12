@@ -35,6 +35,10 @@
       "type" : "git"
     , "url" : "https://github.com/thecjharries/slim-ace.git"
     }
+  , "homepage": "https://github.com/thecjharries/slim-ace#readme"
+  , "bugs": {
+     "url": "https://github.com/thecjharries/slim-ace/issues"
+    }
   , "nyc": {
       "include": [
         "src/**/*.ts"
