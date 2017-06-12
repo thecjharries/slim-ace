@@ -3,7 +3,8 @@
   , "version": "0.0.0"
   , "description": "A customizable Ace build process"
   , "scripts": {
-      "test": "cross-env NODE_ENV=test nyc mocha"
+      "test": "mocha"
+    , "test-tree": "nyc --show-process-tree npm test"
     }
   , "author": "CJ Harries <cj@wizardsoftheweb.pro>"
   , "license": "ISC"
