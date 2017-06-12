@@ -1,9 +1,9 @@
 language: node_js
 sudo: false
 node_js:
+  - 7
   - "stable"
 install:
-  - npm install --verbose
+  - npm install
 script:
-  - npm test --verbose
-  - npm run test-tree
+  - npm test
