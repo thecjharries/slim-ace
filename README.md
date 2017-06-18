@@ -39,16 +39,31 @@ I care about TextMate [languages](http://manual.macromates.com/en/language_gramm
 
 ## Roadmap
 
-* Main features
-    - Convert this to a progress table
-    - Include help in markdown somewhere
-    - Define options and configuration
-    - Copy source files
-    - Build from source files (e.g. customize and minify)
-    - Full Ace lib support (ace-builds doesn't include the necessary files to, say, [complete the highlighter tutorial](https://ace.c9.io/#nav=higlighter))
-    - `tmLanguage` parsing (initially from the plist, then from the YAML, JSON, and all that) (probably going to break this out somehow)
-    - `tmTheme` parsing (initially from the plist, then from the YAML, JSON, and all that) (probably going to break this out somehow)
-    - Gulp integration
-* Eventual features
-    - Grunt integrations
-    - Nothing else for the moment, but I'm not immune to feature creep
+These percentages are pretty arbitrary. Today's 47% could be tomorrow's 90% or vice versa.
+
+### Main Features
+
+Once all of these are finished, I'll release `v1`. Until then, `v0` should be used with caution, because it's not stable.
+
+| Progess | Feature |
+| ------: | ------- |
+|   100%  | Convert feature list to a progress table |
+|     0%  | Include help in markdown somewhere |
+|    80%  | Define options and configuration |
+|     0%  | Provide more than inline documentation for options and config |
+|    10%  | Copy source files |
+|     0%  | Generate example index.html for local testing/confirmation |
+|     5%  | Build from source files (e.g. pick modes and minify) |
+|     0%  | Full Ace lib support(`ace-builds` doesn't include the necessary files to, say, [complete the highlighter tutorial](https://ace.c9.io/#nav=higlighter)) |
+|     0%  | `tmLanguage` parsing (initially from the plist, then from the YAML, JSON, and all that) |
+|     0%  | `tmTheme` parsing (initially from the plist, then from the YAML, JSON, and all that) |
+|     0%  | Gulp integration |
+
+### Eventual features
+
+These are things I'd like to add, but probably won't be included in `v1`. If not, they'll most likely constitute one or more minor version increments.
+
+| Progess | Feature |
+| ------: | ------- |
+|     0%  | Grunt integration |
+
