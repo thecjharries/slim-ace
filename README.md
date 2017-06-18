@@ -1,5 +1,7 @@
 # `@wizardsoftheweb/slim-ace`
 
+[![Build Status](https://travis-ci.org/thecjharries/slim-ace.svg?branch=dev)](https://travis-ci.org/thecjharries/slim-ace)
+
 Opinionated [Ace](https://ace.c9.io/) build and customization tools.
 
 ## Install
