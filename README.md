@@ -4,6 +4,18 @@
 
 Opinionated [Ace](https://ace.c9.io/) build and customization tools.
 
+<!-- toc -->
+- [Install](#install)
+- [Usage](#usage)
+- [Overview](#overview)
+  * [What?](#what)
+  * [Why?](#why)
+  * [TextMate?](#textmate)
+- [Roadmap](#roadmap)
+  * [Main Features](#main-features)
+  * [Eventual features](#eventual-features)
+<!-- tocstop -->
+
 ## Install
 
 ```

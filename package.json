@@ -1,61 +1,65 @@
 {
-    "name": "@wizardsoftheweb/slim-ace"
-  , "version": "0.0.0"
-  , "description": "A customizable Ace build process"
-  , "scripts": {
-      "test": "cross-env NODE_ENV=test nyc mocha"
-    }
-  , "author": "CJ Harries <cj@wizardsoftheweb.pro>"
-  , "license": "ISC"
-  , "devDependencies": {
-      "@types/chai": "^4.0.0"
-    , "@types/chai-as-promised": "0.0.31"
-    , "@types/minimist": "^1.2.0"
-    , "@types/mocha": "^2.2.41"
-    , "@types/node": "^7.0.29"
-    , "@types/shelljs": "^0.7.2"
-    , "@types/sinon": "^2.3.1"
-    , "chai": "^4.0.2"
-    , "chai-as-promised": "^6.0.0"
-    , "cross-env": "^5.0.1"
-    , "mocha": "^3.4.2"
-    , "nyc": "^11.0.2"
-    , "sinon": "^2.3.4"
-    , "source-map-support": "^0.4.15"
-    , "ts-node": "^3.0.6"
-    , "tslint": "^5.4.3"
-    , "typescript": "^2.3.4"
-    }
-  , "dependencies": {
-      "minimist": "^1.2.0"
-    , "shelljs": "^0.7.8"
-    }
-  , "repository" : {
-      "type" : "git"
-    , "url" : "https://github.com/thecjharries/slim-ace.git"
-    }
-  , "homepage": "https://github.com/thecjharries/slim-ace#readme"
-  , "bugs": {
-     "url": "https://github.com/thecjharries/slim-ace/issues"
-    }
-  , "nyc": {
-      "include": [
-        "src/**/*.ts"
-      ]
-    , "exclude": [
-        "src/**/*.interfaces.ts"
-      ]
-    , "extension": [
-        ".ts"
-      ]
-    , "require": [
-        "ts-node/register"
-      ]
-    , "reporter": [
-        "json"
-      , "html"
-      , "text-summary"
-      ]
-    , "all": true
-   }
+  "name": "@wizardsoftheweb/slim-ace",
+  "version": "0.0.0",
+  "description": "A customizable Ace build process",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test nyc mocha"
+  },
+  "author": "CJ Harries <cj@wizardsoftheweb.pro>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bluebird": "^3.5.5",
+    "@types/chai": "^4.0.0",
+    "@types/chai-as-promised": "0.0.31",
+    "@types/minimist": "^1.2.0",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^7.0.29",
+    "@types/shelljs": "^0.7.2",
+    "@types/sinon": "^2.3.1",
+    "bluebird": "^3.5.0",
+    "chai": "^4.0.2",
+    "chai-as-promised": "^6.0.0",
+    "chalk": "^1.1.3",
+    "cross-env": "^5.0.1",
+    "markdown-toc": "^1.1.0",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.2",
+    "sinon": "^2.3.4",
+    "source-map-support": "^0.4.15",
+    "ts-node": "^3.0.6",
+    "tslint": "^5.4.3",
+    "typescript": "^2.3.4"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "shelljs": "^0.7.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thecjharries/slim-ace.git"
+  },
+  "homepage": "https://github.com/thecjharries/slim-ace#readme",
+  "bugs": {
+    "url": "https://github.com/thecjharries/slim-ace/issues"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/**/*.interfaces.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "json",
+      "html",
+      "text-summary"
+    ],
+    "all": true
+  }
 }
