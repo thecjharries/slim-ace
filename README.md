@@ -70,6 +70,7 @@ Once all of these are finished, I'll release `v1`. Until then, `v0` should be us
 |      0% | `tmLanguage` parsing (initially from the plist, then from the YAML, JSON, and all that) |
 |      0% | `tmTheme` parsing (initially from the plist, then from the YAML, JSON, and all that) |
 |      0% | Gulp integration |
+|     10% | Convert `shelljs.echo` to `winston.log` where appropriate |
 
 ### Eventual features
 
@@ -78,4 +79,5 @@ These are things I'd like to add, but probably won't be included in `v1`. If not
 | Progess | Feature |
 | ------: | ------- |
 |      0% | Grunt integration |
+|      0% | Modularize the scripts in `git-hooks` |
 
