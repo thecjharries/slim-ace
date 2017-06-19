@@ -5,6 +5,10 @@ import * as shelljs from "shelljs";
 
 import * as OptionsParserInterfaces from "./OptionsParser.interfaces";
 
+// TODO: split out create and update methods
+// TODO: split out validate methods
+// TODO: convert logging to winston
+
 export abstract class OptionsParser {
     protected static HELP_MESSAGE_PATH: string = path.join(__dirname, "help");
     protected static DEFAULT_OPTIONS = {

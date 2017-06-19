@@ -1,5 +1,7 @@
 import { ParsedArgs } from "minimist";
 
+// TODO: split into multiple files bases on OptionsParser split
+
 export interface IArgsIndex {
     [key: string]: any;
 }
