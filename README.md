@@ -80,4 +80,6 @@ These are things I'd like to add, but probably won't be included in `v1`. If not
 | ------: | ------- |
 |      0% | Grunt integration |
 |      0% | Modularize the scripts in `git-hooks` |
+|      0% | Add branch-specific hooks (e.g. `npm test` on `master`, but not on `feature`) |
+|      0% | Add lint w/formatter hook |
 
