@@ -1,14 +1,20 @@
+# Local configurations
+.gitconfig
+# Editors
 .idea
 *.sublime-*
+# Node and NPM
 node_modules
 npm-debug.log
-.gitconfig
+# TS output that might exist but shouldn't be committed
 src/**/*.js
 src/**/*.map
 test/**/*.js
 test/**/*.map
+# Generated folders that should always be regenerated
 .nyc_output
 coverage
 docs
-
+logs
+# Personal working files (you might not need these)
 scratch.ts
